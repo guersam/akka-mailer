@@ -18,7 +18,7 @@ object BuildSettings {
 
   val buildHomepage             = Some(url("http://www.coiney.com"))
   val buildStartYear            = Some(2014)
-  val buildDescription          = "Scala start project"
+  val buildDescription          = "An Akka based concurrent mailer service"
   val buildLicense              = Seq("BSD" -> url("http://opensource.org/licenses/BSD-3-Clause"))
 
   val buildOrganizationName     = "coiney.com"
