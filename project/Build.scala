@@ -102,7 +102,8 @@ object Scalabuild extends Build {
     tsconfig,
     logback,
     akkaactor,
-    akkaslf4j
+    akkaslf4j,
+    acemail
   )
 
   val commonResolvers = Seq(
