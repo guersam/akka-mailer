@@ -12,13 +12,13 @@ import sbtunidoc.Plugin._
 
 object BuildSettings {
   val buildName                 = "akka-mailer"
-  val buildVersion              = "0.1.0-SNAPSHOT"
+  val buildVersion              = "0.1.0"
   val buildScalaVersion         = "2.10.4"
   val buildJvmVersion           = "1.7"
 
   val buildHomepage             = Some(url("http://www.coiney.com"))
   val buildStartYear            = Some(2014)
-  val buildDescription          = "Scala start project"
+  val buildDescription          = "An Akka based concurrent mailer service"
   val buildLicense              = Seq("BSD" -> url("http://opensource.org/licenses/BSD-3-Clause"))
 
   val buildOrganizationName     = "coiney.com"
@@ -102,7 +102,8 @@ object Scalabuild extends Build {
     tsconfig,
     logback,
     akkaactor,
-    akkaslf4j
+    akkaslf4j,
+    acemail
   )
 
   val commonResolvers = Seq(
