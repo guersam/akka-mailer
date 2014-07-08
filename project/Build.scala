@@ -12,7 +12,7 @@ import sbtunidoc.Plugin._
 
 object BuildSettings {
   val buildName                 = "akka-mailer"
-  val buildVersion              = "0.1.0"
+  val buildVersion              = "0.1.1"
   val buildScalaVersion         = "2.10.4"
   val buildJvmVersion           = "1.7"
 
