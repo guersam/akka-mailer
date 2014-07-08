@@ -4,7 +4,7 @@ import akka.actor.{ActorLogging, Actor, Props}
 
 import scala.concurrent.duration.FiniteDuration
 
-import com.coiney.akka.mailer.Email
+import com.coiney.akka.mailer.{MailConfig, Email}
 import com.coiney.akka.mailer.util.Mailer
 import com.coiney.akka.mailer.util.commons.CommonsMailer
 
