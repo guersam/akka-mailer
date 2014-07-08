@@ -4,14 +4,14 @@ import akka.actor.SupervisorStrategy.{Restart, Stop}
 import akka.actor.{Actor, ActorLogging, OneForOneStrategy, Props}
 import com.typesafe.config.Config
 
-import com.coiney.akka.mailer.{EmailException, Email}
+import com.coiney.akka.mailer.{MailConfig, EmailException, Email}
 
 
 object MailService {
-  def apply(cfg: Config): MailService = new MailService with MailConfiguration with ConfigRetryBehaviour {
-    override protected lazy val mailConfig: MailConfig = MailConfig(cfg)
+  def apply(config: MailConfig): MailService = new MailService with MailConfiguration with ConfigRetryBehaviour {
+    override protected lazy val mailConfig: MailConfig = config
   }
-  def props(cfg: Config): Props = Props(MailService(cfg))
+  def props(config: MailConfig): Props = Props(MailService(config))
 }
 
 class MailService extends Actor
