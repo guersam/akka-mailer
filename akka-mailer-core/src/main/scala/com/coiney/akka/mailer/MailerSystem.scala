@@ -10,7 +10,7 @@ import scala.concurrent.duration._
 
 object MailerSystem {
 
-  val Version: String = "0.3.0-SNAPSHOT"
+  val Version: String = "0.2.0-SNAPSHOT"
 
   def apply()(implicit _actorRefFactory: ActorRefFactory): MailerSystem =
     apply(None, None)(_actorRefFactory)
