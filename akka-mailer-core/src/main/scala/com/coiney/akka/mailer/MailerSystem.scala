@@ -3,7 +3,7 @@ package com.coiney.akka.mailer
 import akka.actor.{ActorRef, ActorRefFactory}
 import com.typesafe.config.{Config, ConfigFactory}
 
-import com.coiney.akka.mailer.actors.{Dispatcher, Master}
+import com.coiney.akka.mailer.actors.{Service, Dispatcher, Master}
 
 import scala.concurrent.duration._
 
@@ -41,6 +41,7 @@ object MailerSystem {
     import config._
 
     final val mailerProviderClass: String = getString("mailer.provider")
+    final val nrOfDispatchers: Int = getInt("mailer.nr-of-dispatchers")
     final val maxNrOfRetries: Int = getInt("mailer.max-nr-of-retries")
     final val retryAfter: FiniteDuration = getDuration("mailer.retry-after", MILLISECONDS).millis
 
@@ -66,6 +67,9 @@ class MailerSystem(mailerConfig: Config, classLoader: ClassLoader)(implicit _act
   final val settings: Settings = new Settings(classLoader, mailerConfig)
 
   private val actorRefFactory = _actorRefFactory
+
+  def createService(): ActorRef = actorRefFactory.actorOf(Service.props(settings))
+  def createService(name: String): ActorRef = actorRefFactory.actorOf(Service.props(settings), name)
 
   def createMaster(): ActorRef = actorRefFactory.actorOf(Master.props(settings))
   def createMaster(name: String): ActorRef = actorRefFactory.actorOf(Master.props(settings), name)
