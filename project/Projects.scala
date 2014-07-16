@@ -25,8 +25,20 @@ object Projects extends Build {
     .settings(releaseSettings: _*)
     .settings(
       libraryDependencies ++=
-        compile(typesafeConfig, logback, akkaActor, akkaSlf4j, apacheCommonsEMail) ++
+        compile(typesafeConfig, logback, akkaActor, akkaSlf4j) ++
         test(scalaTest, akkaTest)
+    )
+
+  lazy val sendgridModule = module("sendgrid", basicSettings)
+    .settings(unidocSettings: _*)
+    .settings(assemblySettings: _*)
+    .settings(releaseSettings: _*)
+    .settings(
+      libraryDependencies ++=
+        compile(typesafeConfig, logback, akkaActor, akkaSlf4j, scalajHttp) ++
+          test(scalaTest, akkaTest)
+    ).dependsOn(
+      coreModule % "test->test;compile->compile"
     )
 
   lazy val exampleModule = module("example", basicSettings)
@@ -36,7 +48,8 @@ object Projects extends Build {
         compile(typesafeConfig, logback, akkaActor, akkaSlf4j) ++
         test(scalaTest, akkaTest)
     ).dependsOn(
-      coreModule % "test->test;compile->compile"
+      coreModule % "test->test;compile->compile",
+      sendgridModule
     )
 
   def module(name: String, basicSettings: Seq[Setting[_]]): Project = {
