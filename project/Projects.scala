@@ -29,6 +29,18 @@ object Projects extends Build {
         test(scalaTest, akkaTest)
     )
 
+  lazy val smtpModule = module("smtp", basicSettings)
+    .settings(unidocSettings: _*)
+    .settings(assemblySettings: _*)
+    .settings(releaseSettings: _*)
+    .settings(
+      libraryDependencies ++=
+        compile(typesafeConfig, logback, akkaActor, akkaSlf4j, apacheCommonsEMail) ++
+          test(scalaTest, akkaTest)
+    ).dependsOn(
+      coreModule % "test->test;compile->compile"
+    )
+
   lazy val sendgridModule = module("sendgrid", basicSettings)
     .settings(unidocSettings: _*)
     .settings(assemblySettings: _*)
@@ -49,6 +61,7 @@ object Projects extends Build {
         test(scalaTest, akkaTest)
     ).dependsOn(
       coreModule % "test->test;compile->compile",
+      smtpModule,
       sendgridModule
     )
 
