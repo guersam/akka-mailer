@@ -31,13 +31,15 @@ object Globals {
   val snapshotRepo = Some("snapshots" at "http://archives.coiney.com:8888/repository/snapshots/")
 
   val pomDevelopers =
-    <id>pjan</id><name>pjan vandaele</name><url>http://pjan.io</url>;
+      <id>pjan</id><name>pjan vandaele</name><url>http://pjan.io</url>;
 
   val pomLicense =
-    <license>
-      <name>BSD</name>
-      <url>http://opensource.org/licenses/BSD-3-Clause</url>
-      <distribution>repo</distribution>
-    </license>;
+      <licenses>
+        <license>
+          <name>The BSD 3-Clause License</name>
+          <url>http://opensource.org/licenses/BSD-3-Clause</url>
+          <distribution>repo</distribution>
+        </license>
+      </licenses>;
 
 }
