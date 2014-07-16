@@ -67,8 +67,10 @@ class MailerSystem(mailerConfig: Config, classLoader: ClassLoader)(implicit _act
 
   private val actorRefFactory = _actorRefFactory
 
-  def createService(): ActorRef = actorRefFactory.actorOf(Master.props(settings))
+  def createMaster(): ActorRef = actorRefFactory.actorOf(Master.props(settings))
+  def createMaster(name: String): ActorRef = actorRefFactory.actorOf(Master.props(settings), name)
 
   def createDispatcher(master: ActorRef): ActorRef = actorRefFactory.actorOf(Dispatcher.props(master, settings))
+  def createDispatcher(master: ActorRef, name: String): ActorRef = actorRefFactory.actorOf(Dispatcher.props(master, settings))
 
 }
