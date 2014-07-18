@@ -25,7 +25,7 @@ object Projects extends Build {
     .settings(releaseSettings: _*)
     .settings(
       libraryDependencies ++=
-        compile(typesafeConfig, logback, akkaActor, akkaSlf4j) ++
+        compile(typesafeConfig, akkaActor) ++
         test(scalaTest, akkaTest)
     )
 
@@ -35,7 +35,7 @@ object Projects extends Build {
     .settings(releaseSettings: _*)
     .settings(
       libraryDependencies ++=
-        compile(typesafeConfig, logback, akkaActor, akkaSlf4j, apacheCommonsEMail) ++
+        compile(typesafeConfig, akkaActor, apacheCommonsEMail) ++
           test(scalaTest, akkaTest)
     ).dependsOn(
       coreModule % "test->test;compile->compile"
@@ -47,7 +47,7 @@ object Projects extends Build {
     .settings(releaseSettings: _*)
     .settings(
       libraryDependencies ++=
-        compile(typesafeConfig, logback, akkaActor, akkaSlf4j, scalajHttp) ++
+        compile(typesafeConfig, akkaActor, scalajHttp) ++
           test(scalaTest, akkaTest)
     ).dependsOn(
       coreModule % "test->test;compile->compile"
@@ -57,7 +57,7 @@ object Projects extends Build {
     .settings(noPublishing: _*)
     .settings(
       libraryDependencies ++=
-        compile(typesafeConfig, logback, akkaActor, akkaSlf4j) ++
+        compile(typesafeConfig, akkaActor) ++
         test(scalaTest, akkaTest)
     ).dependsOn(
       coreModule % "test->test;compile->compile",
