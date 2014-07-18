@@ -17,6 +17,14 @@ object HtmlEmailImplicits {
       mail
     }
 
+    def setReplyTo(c: Option[Correspondent]): HtmlEmail = {
+      if (c.nonEmpty) c.get match {
+        case Correspondent(email, None)       => mail.addReplyTo(email)
+        case Correspondent(email, Some(name)) => mail.addReplyTo(email, name)
+      }
+      mail
+    }
+
     def addTo(cs: List[Correspondent]): HtmlEmail = addCorrespondent(cs)(mail.addTo(_), mail.addTo(_, _))
 
     def addCc(cs: List[Correspondent]): HtmlEmail = addCorrespondent(cs)(mail.addCc(_), mail.addCc(_, _))
@@ -41,6 +49,7 @@ object HtmlEmailImplicits {
       mail.addBcc(email.bcc)
       mail.setHtmlMsg(email.html)
       mail.setTextMsg(email.text)
+      mail.setReplyTo(email.replyTo)
       mail.setHeaders(email.headers)
       mail
     }
