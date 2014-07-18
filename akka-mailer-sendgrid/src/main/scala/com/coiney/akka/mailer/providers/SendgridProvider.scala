@@ -67,7 +67,7 @@ class SendgridProvider(settings: Settings) extends MailerProvider {
       email.text.foreach{ text => postData += ("text" -> text) }
 
       // add replyTo
-      email.replyTo.foreach{ replyTo => postData += ("replyto" -> replyTo) }
+      email.replyTo.foreach{ replyTo => postData += ("replyto" -> replyTo.email) }
 
       // add Headers
       // To Be Done
