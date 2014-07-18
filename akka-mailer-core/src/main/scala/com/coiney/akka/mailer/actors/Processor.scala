@@ -40,5 +40,6 @@ class Processor(settings: MailerSystem.Settings) extends Actor
       context.parent ! Dispatcher.ProcessingFinished(())
       context.stop(self)
   }
+
 }
 

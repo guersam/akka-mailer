@@ -101,5 +101,6 @@ class Master(settings: MailerSystem.Settings) extends Actor
       }
     }
   }
+
 }
 

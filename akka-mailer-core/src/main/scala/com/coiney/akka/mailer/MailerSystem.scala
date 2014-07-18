@@ -52,7 +52,9 @@ object MailerSystem {
   private[mailer] def findClassLoader(): ClassLoader = {
     Option(Thread.currentThread.getContextClassLoader) getOrElse
       getClass.getClassLoader
+
   }
+
 }
 
 class MailerSystem(mailerConfig: Config, classLoader: ClassLoader)(implicit _actorRefFactory: ActorRefFactory) {

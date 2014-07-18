@@ -69,4 +69,5 @@ class Dispatcher(master: ActorRef, settings: MailerSystem.Settings) extends Acto
       case _ =>
         Escalate
     }
+
 }

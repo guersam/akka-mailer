@@ -52,4 +52,5 @@ class Service(settings: MailerSystem.Settings) extends Actor {
   override def supervisorStrategy = AllForOneStrategy(){
     case _ => Restart
   }
+
 }
