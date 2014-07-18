@@ -10,21 +10,19 @@ import scala.concurrent.duration._
 
 object MailerSystem {
 
-  val Version: String = "0.2.0-SNAPSHOT"
+  def apply()(implicit actorRefFactory: ActorRefFactory): MailerSystem =
+    apply(None, None)(actorRefFactory)
 
-  def apply()(implicit _actorRefFactory: ActorRefFactory): MailerSystem =
-    apply(None, None)(_actorRefFactory)
+  def apply(config: Config)(implicit actorRefFactory: ActorRefFactory): MailerSystem =
+    apply(Option(config), None)(actorRefFactory)
 
-  def apply(config: Config)(implicit _actorRefFactory: ActorRefFactory): MailerSystem =
-    apply(Option(config), None)(_actorRefFactory)
+  def apply(config: Config, classLoader: ClassLoader)(implicit actorRefFactory: ActorRefFactory): MailerSystem =
+    apply(Option(config), Option(classLoader))(actorRefFactory)
 
-  def apply(config: Config, classLoader: ClassLoader)(implicit _actorRefFactory: ActorRefFactory): MailerSystem =
-    apply(Option(config), Option(classLoader))(_actorRefFactory)
-
-  def apply(config: Option[Config], classLoader: Option[ClassLoader])(implicit _actorRefFactory: ActorRefFactory): MailerSystem = {
+  def apply(config: Option[Config], classLoader: Option[ClassLoader])(implicit actorRefFactory: ActorRefFactory): MailerSystem = {
     val cl = classLoader.getOrElse(findClassLoader())
     val mailerConfig = config.getOrElse(ConfigFactory.load(cl))
-    new MailerSystem(mailerConfig, cl)(_actorRefFactory)
+    new MailerSystem(mailerConfig, cl)(actorRefFactory)
   }
 
   class Settings(classLoader: ClassLoader, cfg: Config) {
