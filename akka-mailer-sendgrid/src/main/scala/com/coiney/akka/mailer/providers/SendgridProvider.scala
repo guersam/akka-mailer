@@ -40,7 +40,7 @@ class SendgridProvider(settings: Settings) extends MailerProvider {
 
       // add from
       postData += ("from" -> email.from.email)
-      email.from.name.foreach{ name => postData += ("fromname" -> name)}
+      email.from.name.foreach{ name => postData += ("fromname" -> name) }
 
       // add to
       for(i <- 0 until email.to.length) {
@@ -64,7 +64,10 @@ class SendgridProvider(settings: Settings) extends MailerProvider {
       email.html.foreach{ html => postData += ("html" -> html) }
 
       // add text
-      email.text.foreach{ text => postData += ("text" -> text)}
+      email.text.foreach{ text => postData += ("text" -> text) }
+
+      // add replyTo
+      email.replyTo.foreach{ replyTo => postData += ("replyto" -> replyTo) }
 
       // add Headers
       // To Be Done
