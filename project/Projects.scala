@@ -16,6 +16,8 @@ object Projects extends Build {
     .settings(noPublishing: _*)
     .aggregate(
       coreModule,
+      smtpModule,
+      sendgridModule,
       exampleModule
     )
 
@@ -57,8 +59,7 @@ object Projects extends Build {
     .settings(noPublishing: _*)
     .settings(
       libraryDependencies ++=
-        compile(typesafeConfig, akkaActor) ++
-        test(scalaTest, akkaTest)
+        compile(typesafeConfig, akkaActor)
     ).dependsOn(
       coreModule % "test->test;compile->compile",
       smtpModule,
