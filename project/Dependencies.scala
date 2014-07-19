@@ -5,6 +5,7 @@ object Dependencies {
   object Versions {
     val akka                = "2.3.4"
     val apacheCommonsEmail  = "1.3.2"
+    val aspectj             = "1.7.4"
     val scalajHttp          = "0.3.16"
     val typesafeConfig      = "1.2.0"
 
