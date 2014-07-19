@@ -3,16 +3,21 @@ package com.coiney.akka.mailer.actors
 import akka.actor.ActorSystem
 import akka.testkit.{TestProbe, ImplicitSender, TestKit}
 import com.coiney.akka.mailer.actors.Master.DispatcherCreated
-import org.scalatest.{Matchers, WordSpecLike}
+import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 import scala.concurrent.duration._
 
 
-class MasterSpec extends TestKit(ActorSystem("MasterSpec"))
-                 with ImplicitSender
-                 with WordSpecLike
-                 with Matchers
-                 with MailerSpec {
+class MasterSpec(_actorSystem: ActorSystem) extends TestKit(_actorSystem)
+                                            with WordSpecLike
+                                            with Matchers
+                                            with BeforeAndAfterAll
+                                            with MailerSpec {
 
+  def this() = this(ActorSystem("MasterSpec"))
+
+  override def afterAll(): Unit = {
+    system.shutdown()
+  }
 
   "Master actor" should {
 

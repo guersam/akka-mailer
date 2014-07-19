@@ -19,7 +19,7 @@ trait MailerSpec {
   def TestMasterRef(): TestActorRef[Master] =
     TestActorRef(Master(new MailerSystem.Settings(MailerSystem.findClassLoader(), config)))
 
-  def DispatcherActorRef(master: ActorRef): TestActorRef[Dispatcher] =
+  def TestDispatcherRef(master: ActorRef): TestActorRef[Dispatcher] =
     TestActorRef(Dispatcher(master, new MailerSystem.Settings(MailerSystem.findClassLoader(), config)))
 
   def randomEmail(): Email = {
