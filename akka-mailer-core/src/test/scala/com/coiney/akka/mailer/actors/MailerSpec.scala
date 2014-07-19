@@ -11,7 +11,7 @@ trait MailerSpec {
   val config= ConfigFactory.parseString(
     """
       |mailer.provider: "com.coiney.akka.mailer.providers.TestMailerProvider"
-      |mailer.nr-of-dispatchers: 1
+      |mailer.nr-of-dispatchers: 4
       |mailer.max-nr-of-retries: 2
       |mailer.retry-after: 200 ms
     """.stripMargin)
@@ -21,6 +21,12 @@ trait MailerSpec {
 
   def TestDispatcherRef(master: ActorRef): TestActorRef[Dispatcher] =
     TestActorRef(Dispatcher(master, new MailerSystem.Settings(MailerSystem.findClassLoader(), config)))
+
+  def TestServiceRef(): TestActorRef[Service] =
+    TestActorRef(Service(new MailerSystem.Settings(MailerSystem.findClassLoader(), config)))
+
+  def TestDispatcherSupervisorRef(master: ActorRef): TestActorRef[Service.DispatcherSupervisor] =
+    TestActorRef(Service.DispatcherSupervisor(master, new MailerSystem.Settings(MailerSystem.findClassLoader(), config)))
 
   def randomEmail(): Email = {
     val randomString = util.Random.nextString(10)
