@@ -1,17 +1,26 @@
-package com.coiney.akka.mailer.util.commons
+package com.coiney.akka.mailer.providers
 
 import org.apache.commons.mail.HtmlEmail
 
 import com.coiney.akka.mailer.{Email, Correspondent}
 
 
-object Implicits {
+object HtmlEmailImplicits {
+  implicit class HtmlEMailWrapper(mail: HtmlEmail) {
+    import collection.JavaConversions._
 
-  implicit class HtmlMailWrapper(mail: HtmlEmail) {
     def setFrom(c: Correspondent): HtmlEmail = {
       c match {
         case Correspondent(email, None)       => mail.setFrom(email)
         case Correspondent(email, Some(name)) => mail.setFrom(email, name)
+      }
+      mail
+    }
+
+    def setReplyTo(c: Option[Correspondent]): HtmlEmail = {
+      if (c.nonEmpty) c.get match {
+        case Correspondent(email, None)       => mail.addReplyTo(email)
+        case Correspondent(email, Some(name)) => mail.addReplyTo(email, name)
       }
       mail
     }
@@ -40,6 +49,8 @@ object Implicits {
       mail.addBcc(email.bcc)
       mail.setHtmlMsg(email.html)
       mail.setTextMsg(email.text)
+      mail.setReplyTo(email.replyTo)
+      mail.setHeaders(email.headers)
       mail
     }
 
@@ -51,5 +62,4 @@ object Implicits {
       mail
     }
   }
-
 }
