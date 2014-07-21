@@ -1,6 +1,7 @@
 package com.coiney.akka.mailer.example
 
-import com.coiney.akka.mailer.{Email, EmailException, MailerSystem}
+import com.coiney.akka.mailer.{EmailException, MailerSystem}
+import com.coiney.akka.mailer.protocol.Email
 import com.coiney.akka.mailer.providers.MailerProvider
 
 

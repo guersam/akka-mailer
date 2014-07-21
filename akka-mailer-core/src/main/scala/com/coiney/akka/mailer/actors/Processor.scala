@@ -2,7 +2,8 @@ package com.coiney.akka.mailer.actors
 
 import akka.actor.{Props, Actor, ActorLogging}
 
-import com.coiney.akka.mailer.{MailerSystem, Email}
+import com.coiney.akka.mailer.MailerSystem
+import com.coiney.akka.mailer.protocol.Email
 import com.coiney.akka.mailer.providers.MailerProvider
 import com.coiney.akka.mailer.util.{ReflectiveDynamicAccess, DynamicAccess}
 

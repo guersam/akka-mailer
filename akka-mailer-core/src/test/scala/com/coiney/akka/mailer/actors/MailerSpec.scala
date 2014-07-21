@@ -2,8 +2,9 @@ package com.coiney.akka.mailer.actors
 
 import akka.actor.ActorRef
 import akka.testkit.{TestKit, TestActorRef}
-import com.coiney.akka.mailer.{Correspondent, Email, MailerSystem}
-import com.typesafe.config.{Config, ConfigFactory}
+import com.coiney.akka.mailer.MailerSystem
+import com.coiney.akka.mailer.protocol.{Email, Correspondent}
+import com.typesafe.config.ConfigFactory
 
 trait MailerSpec {
   this: TestKit =>

@@ -2,7 +2,7 @@ package com.coiney.akka.mailer.providers
 
 import org.apache.commons.mail.HtmlEmail
 
-import com.coiney.akka.mailer.{Email, Correspondent}
+import com.coiney.akka.mailer.protocol.{Email, Correspondent}
 
 
 object HtmlEmailImplicits {

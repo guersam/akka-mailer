@@ -1,6 +1,7 @@
 package com.coiney.akka.mailer.providers
 
-import com.coiney.akka.mailer.{MailerSystem, EmailException, Email}
+import com.coiney.akka.mailer.{MailerSystem, EmailException}
+import com.coiney.akka.mailer.protocol.Email
 import com.coiney.akka.mailer.providers.MailerProvider.Mailer
 
 class TestMailerProvider(settings: MailerSystem.Settings) extends MailerProvider {

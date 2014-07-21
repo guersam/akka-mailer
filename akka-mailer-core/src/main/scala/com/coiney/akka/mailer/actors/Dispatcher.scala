@@ -3,7 +3,8 @@ package com.coiney.akka.mailer.actors
 import akka.actor._
 import akka.actor.SupervisorStrategy.{Escalate, Stop}
 
-import com.coiney.akka.mailer.{EmailException, MailerSystem, Email}
+import com.coiney.akka.mailer.{EmailException, MailerSystem}
+import com.coiney.akka.mailer.protocol.Email
 
 
 object Dispatcher {
