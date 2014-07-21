@@ -1,7 +1,7 @@
 package com.coiney.akka.mailer.protocol
 
 
-trait MailerRequest
+sealed trait MailerRequest
 object Email {
   def apply(subject: String, from: Correspondent, to: Correspondent, html: String): Email =
     Email(subject, from, List(to), html = Some(html))
