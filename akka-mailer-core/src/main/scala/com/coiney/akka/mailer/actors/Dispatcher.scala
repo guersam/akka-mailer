@@ -3,7 +3,8 @@ package com.coiney.akka.mailer.actors
 import akka.actor._
 import akka.actor.SupervisorStrategy.{Escalate, Stop}
 
-import com.coiney.akka.mailer.{EmailException, MailerSystem, Email}
+import com.coiney.akka.mailer.{EmailException, MailerSystem}
+import com.coiney.akka.mailer.protocol.Email
 
 
 object Dispatcher {
@@ -61,8 +62,8 @@ class Dispatcher(master: ActorRef, settings: MailerSystem.Settings) extends Acto
 
   override val supervisorStrategy =
     OneForOneStrategy(maxNrOfRetries = 0) {
-      case _: EmailException =>
-        master ! Master.MailFailed(self)
+      case e: EmailException =>
+        master ! Master.MailFailed(self, e)
         master ! Master.MailRequest(self)
         context.become(idle)
         Stop

@@ -2,7 +2,8 @@ package com.coiney.akka.mailer.actors
 
 import akka.actor._
 
-import com.coiney.akka.mailer.{MailerSystem, Email}
+import com.coiney.akka.mailer.{EmailException, MailerSystem}
+import com.coiney.akka.mailer.protocol.{Success, Failure, Email}
 
 import scala.collection.immutable.Queue
 import scala.concurrent.duration._
@@ -12,7 +13,7 @@ object Master {
   case class DispatcherCreated(dispatcher: ActorRef)
   case class MailRequest(dispatcher: ActorRef)
   case class MailSent(dispatcher: ActorRef)
-  case class MailFailed(dispatcher: ActorRef)
+  case class MailFailed(dispatcher: ActorRef, cause: Throwable)
 
   // intra-actor class
   case class ScheduledEmail(email: Email, attempt: Int)
@@ -52,22 +53,25 @@ class Master(settings: MailerSystem.Settings) extends Actor
       }
 
     case MailSent(dispatcher) =>
-      if (!dispatchers.contains(dispatcher))
+      if (!dispatchers.contains(dispatcher)) {
         log.debug(s"Received MailSent from an unknown dispatcher [$dispatcher]")
-      else
+      } else {
+        val (requester, ScheduledEmail(email, _)) = dispatchers(dispatcher).get
+        requester ! Success(email)
         dispatchers += (dispatcher -> None)
+      }
 
-    case MailFailed(dispatcher) =>
+    case MailFailed(dispatcher, cause) =>
       if (!dispatchers.contains(dispatcher)) {
         log.debug(s"Received MailFailed from an unknown dispatcher [$dispatcher]")
       } else if (dispatchers(dispatcher) != None) {
-        recoverFromFailure(dispatcher)
+        recoverFromFailure(dispatcher, cause)
         dispatchers += (dispatcher -> None)
       }
 
     case Terminated(dispatcher) =>
       if (dispatchers.contains(dispatcher) && dispatchers(dispatcher) != None) {
-        recoverFromFailure(dispatcher)
+        recoverFromFailure(dispatcher, new EmailException("Dispatcher died"))
         dispatchers -= dispatcher
       }
 
@@ -80,13 +84,15 @@ class Master(settings: MailerSystem.Settings) extends Actor
       notifyDispatchers()
   }
 
-  private def recoverFromFailure(dispatcher: ActorRef): Unit = {
+  private def recoverFromFailure(dispatcher: ActorRef, cause: Throwable): Unit = {
     val (requester, ScheduledEmail(email, attempt)) = dispatchers(dispatcher).get
     log.debug(s"Dispatcher [$dispatcher] died while processing $email for $requester on attempt nr. $attempt.")
     if (attempt < maxNrOfRetries)
       scheduleRetry(retryAfter, ScheduledEmail(email, attempt + 1), requester)
-    else
+    else {
+      requester ! Failure(email, cause)
       log.error(s"Sending $email failed after $attempt attempts.")
+    }
   }
 
   private def scheduleRetry(retryAfter: FiniteDuration, scheduledEmail: ScheduledEmail, requester: ActorRef): Unit = {

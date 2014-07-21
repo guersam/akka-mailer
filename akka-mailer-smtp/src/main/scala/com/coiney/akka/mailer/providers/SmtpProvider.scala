@@ -3,7 +3,8 @@ package com.coiney.akka.mailer.providers
 import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.commons.mail.{DefaultAuthenticator, EmailException => CEmailException, HtmlEmail}
 
-import com.coiney.akka.mailer.{Email, EmailException}
+import com.coiney.akka.mailer.EmailException
+import com.coiney.akka.mailer.protocol.Email
 import com.coiney.akka.mailer.MailerSystem.Settings
 
 import scala.concurrent.duration._

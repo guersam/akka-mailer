@@ -2,7 +2,8 @@ package com.coiney.akka.mailer.example
 
 import akka.actor.ActorSystem
 
-import com.coiney.akka.mailer.{Correspondent, Email, MailerSystem}
+import com.coiney.akka.mailer.MailerSystem
+import com.coiney.akka.mailer.protocol.{Email, Correspondent}
 
 
 // example where you create master and dispatchers separately.

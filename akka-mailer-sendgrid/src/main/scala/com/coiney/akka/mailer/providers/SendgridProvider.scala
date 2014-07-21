@@ -2,7 +2,8 @@ package com.coiney.akka.mailer.providers
 
 import java.net.URLEncoder
 
-import com.coiney.akka.mailer.{EmailException, Email}
+import com.coiney.akka.mailer.EmailException
+import com.coiney.akka.mailer.protocol.Email
 import com.coiney.akka.mailer.MailerSystem.Settings
 import com.typesafe.config.{ConfigFactory, Config}
 import scalaj.http.{Http, HttpOptions}

@@ -2,6 +2,7 @@ package com.coiney.akka.mailer.actors
 
 import akka.actor.ActorSystem
 import akka.testkit.{TestProbe, ImplicitSender, TestKit}
+import com.coiney.akka.mailer.EmailException
 import com.coiney.akka.mailer.actors.Master.DispatcherCreated
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 import scala.concurrent.duration._
@@ -133,17 +134,22 @@ class MasterSpec(_actorSystem: ActorSystem) extends TestKit(_actorSystem)
       val senderProbe = TestProbe()
       val email = randomEmail()
 
+      // Inform the master that a dispatcher is created, and send an email, which the dispatcher should be informed about
       master ! DispatcherCreated(dispatcherProbe.ref)
       senderProbe.send(master, email)
       dispatcherProbe.expectMsg(Dispatcher.MailsAvailable)
 
+      // Dispatcher requests the mail and gets it
       dispatcherProbe.send(master, Master.MailRequest(dispatcherProbe.ref))
       dispatcherProbe.expectMsg(Dispatcher.SendMail(email))
 
-      dispatcherProbe.send(master, Master.MailFailed(dispatcherProbe.ref))
+      // Dispatcher informs the master that it failed
+      dispatcherProbe.send(master, Master.MailFailed(dispatcherProbe.ref, new EmailException("error")))
 
+      // Master will retry sending the message. The dispatcher is informed about it's availability
       dispatcherProbe.expectMsg(1.second, Dispatcher.MailsAvailable)
 
+      // Dispatcher requests the mail, and gets it
       dispatcherProbe.send(master, Master.MailRequest(dispatcherProbe.ref))
       dispatcherProbe.expectMsg(Dispatcher.SendMail(email))
     }
